@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Candidate{
+    id            Int      @id @default(autoincrement())
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    email         String   @unique
+    name          String
+    resume_data   String
+    mails         CandidateMail[]
+    score         CandidateScore?
+}
+
+model CandidateScore{
+    id            Int      @id @default(autoincrement())
+    candidateId   Int      @unique
+    score         Int
+    scoreType     ScoreType
+    candidate     Candidate @relation(fields:[candidateId], references: [id])
+}
+
+enum ScoreType {
+    ROUND1
+    ROUND2
+}
+
+model Enterprise{
+    id            Int      @id @default(autoincrement())
+    createdAt     DateTime @default(now())
+    email         String   @unique
+    name          String
+    jobs          Job[]
+}
+
+model Job{
+    id            Int      @id @default(autoincrement())
+    createdAt     DateTime @default(now())
+    title         String
+    description   String
+    enterpriseId  Int
+    enterprise    Enterprise @relation(fields: [enterpriseId], references: [id])
+}
+
+model Mail{
+    id            Int      @id @default(autoincrement())
+    createdAt     DateTime @default(now())
+    subject       String
+    body          String
+    candidates    CandidateMail[]
+}
+
+model CandidateMail {
+    id            Int       @id @default(autoincrement())
+    candidateId   Int
+    mailId        Int
+    round         Int      
+    sent          Boolean   @default(false)
+    sentAt        DateTime
+    candidate     Candidate @relation(fields: [candidateId], references: [id])
+    mail          Mail      @relation(fields: [mailId], references: [id])
+}
