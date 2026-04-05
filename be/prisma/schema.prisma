@@ -8,15 +8,16 @@ datasource db {
 
 model Candidate{
     id            Int      @id @default(autoincrement())
+    clerkId       String   @unique
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
     email         String   @unique
     name          String
-    resume_data   String
+    resume_data   String?
     mails         CandidateMail[]
     score         CandidateScore?
-    jobId         Int
-    job           Job      @relation(fields: [jobId], references: [id])
+    jobId         Int?
+    job           Job?      @relation(fields: [jobId], references: [id])
 
 }
 
