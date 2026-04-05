@@ -16,7 +16,7 @@ export const submitApllication = async(req:Request, res:Response) => {
             jobId
         })
 
-        res.status(201).json({
+        return res.status(201).json({
             message: "Application submitted!",
             candidate: newCandidate
         })
