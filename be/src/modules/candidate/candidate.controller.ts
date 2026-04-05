@@ -1,12 +1,12 @@
 import {Request, Response} from 'express';
 import * as candidateService from './candidate.service';
+import { catchAsync } from '../../../utils/catchAsync';
+import { BadRequestError } from '../../../utils/errors';
 
-export const submitApllication = async(req:Request, res:Response) => {
-    try{
+export const submitApllication = catchAsync(async(req:Request, res:Response) => {
         const {name, email, resume_data, jobId} = req.body;
-
         if (!email || !resume_data || !jobId){
-            return res.status(400).json({error: "Missing Required Fields"});
+            throw new BadRequestError("Missing required fields");
         }
 
         const newCandidate = await candidateService.processNewApplicant({
@@ -20,8 +20,4 @@ export const submitApllication = async(req:Request, res:Response) => {
             message: "Application submitted!",
             candidate: newCandidate
         })
-    } catch (error) {
-        console.error("Error in submitting application", error);
-        res.status(500).json({error: "Internal server error"})
-    }
-}
+})
