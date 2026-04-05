@@ -3,7 +3,7 @@ import { ApplicantData } from './candidate.types';
 
 export const processNewApplicant = async (data: ApplicantData) => {
     
-    const candidate = await prisma.Candidate.create({
+    const candidate = await prisma.candidate.create({
         data: {
             name : data.name,
             email: data.email,

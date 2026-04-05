@@ -1,6 +1,5 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -16,6 +15,9 @@ model Candidate{
     resume_data   String
     mails         CandidateMail[]
     score         CandidateScore?
+    jobId         Int
+    job           Job      @relation(fields: [jobId], references: [id])
+
 }
 
 model CandidateScore{
@@ -46,6 +48,7 @@ model Job{
     description   String
     enterpriseId  Int
     enterprise    Enterprise @relation(fields: [enterpriseId], references: [id])
+    candidates    Candidate[]
 }
 
 model Mail{
@@ -62,7 +65,7 @@ model CandidateMail {
     mailId        Int
     round         Int      
     sent          Boolean   @default(false)
-    sentAt        DateTime
+    sentAt        DateTime  @default(now())
     candidate     Candidate @relation(fields: [candidateId], references: [id])
     mail          Mail      @relation(fields: [mailId], references: [id])
 }
