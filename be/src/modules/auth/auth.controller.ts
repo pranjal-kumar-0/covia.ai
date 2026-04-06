@@ -22,6 +22,17 @@ export const handleClerkWebhook = async (req: Request, res: Response) => {
             }
         }
 
+        if (eventType === 'organization.created') {
+            const { id, name, slug } = evt.data;
+            
+            await authService.syncEnterprise({ 
+                clerkOrgId: id as string, 
+                name: name as string,
+                email: `${slug || id}@enterprise.placeholder.com` 
+            });
+            console.log(`Enterprise created/synced: ${id} - ${name}`);
+        }
+
         return res.status(200).json({ success: true, message: 'Webhook received' });
     } catch (err) {
         console.error('Error verifying webhook:', err);

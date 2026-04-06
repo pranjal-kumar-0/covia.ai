@@ -5,7 +5,7 @@ import enterpriseRouter from './modules/enterprise/enterprise.route';
 import authRouter from './modules/auth/auth.route';
 import superadminRouter from './modules/superadmin/superadmin.route';
 import { clerkMiddleware } from '@clerk/express';
-import { requireAuth, requireOrgRole, requireOrg, requireSuperadmin } from './middlewares/auth.middleware';
+import { requireAuth, requireOrgRole, requireOrg, requireSuperadmin, requireEnterpriseOwnership } from './middlewares/auth.middleware';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(clerkMiddleware())
 
 app.use('/api/candidates', requireAuth, candidateRouter);
-app.use('/api/enterprise', requireAuth, requireOrg, requireOrgRole('org:admin'), enterpriseRouter);
+app.use('/api/enterprise', requireAuth, requireOrg, requireOrgRole('org:admin'), enterpriseRouter, requireEnterpriseOwnership);
 app.use('/api/sa', requireAuth, requireSuperadmin, superadminRouter);
 
 

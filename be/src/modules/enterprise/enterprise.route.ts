@@ -5,6 +5,6 @@ const router = Router();
 
 router.post('/:enterpriseId/job', enterpriseController.addNewJob);
 router.delete('/:enterpriseId/:jobId', enterpriseController.deleteJob);
-
+router.post('/:enterpriseId/evaluate', enterpriseController.triggerEvaluation);
 
 export default router;

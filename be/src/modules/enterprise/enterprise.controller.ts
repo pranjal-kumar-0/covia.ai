@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import * as enterpriseService from './enterprise.service';
+import * as candidateService from '../candidate/candidate.service'; // Imported candidate service
+import { evaluateCandidates } from '../lib/evaluator'; // Imported evaluator
 import { catchAsync } from '../../../utils/catchAsync';
 import { BadRequestError } from '../../../utils/errors';
 
@@ -38,4 +40,25 @@ export const deleteJob = catchAsync(async (req: Request, res: Response) => {
         meessage: "Job application deleted",
         job: job,
     })
+})
+
+export const triggerEvaluation = catchAsync(async (req: Request, res: Response) => {
+    const candidates = await candidateService.getUnevaluatedCandidates();
+
+    if (candidates.length === 0) {
+        return res.status(200).json({ 
+            message: "All candidates already evaluated", 
+            count: 0 
+        });
+    }
+    await candidateService.claimCandidatesForEvaluation(candidates);
+
+    evaluateCandidates(candidates).catch((err) => {
+        console.error("Evaluation crashed:", err);
+    });
+
+    return res.status(200).json({
+        message: `Evaluation started for ${candidates.length} candidates`,
+        count: candidates.length,
+    });
 })

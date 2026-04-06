@@ -14,3 +14,17 @@ export const syncCandidate = async (data: { clerkId: string, email: string, name
         }
     });
 };
+
+export const syncEnterprise = async (data: { clerkOrgId: string, name: string, email: string }) => {
+    return await prisma.enterprise.upsert({
+        where: { clerkOrgId: data.clerkOrgId },
+        update: {
+            name: data.name,
+        },
+        create: {
+            clerkOrgId: data.clerkOrgId,
+            name: data.name,
+            email: data.email, 
+        }
+    });
+};
