@@ -4,3 +4,9 @@ export interface ApplicantData {
     resume_data: string;
     jobId: number;
 }
+
+export interface JobApplication {
+    clerkId: string;
+    resume_data : string;
+    jobId: number;
+}

@@ -21,3 +21,21 @@ export const addNewJob = catchAsync(async (req: Request, res: Response) => {
         job: newJob,
     })
 })
+
+export const deleteJob = catchAsync(async (req: Request, res: Response) => {
+    const enterpriseId = req.params.enterpriseId as string;
+    const jobId = req.params.jobId as string;
+    if (!enterpriseId || !jobId) {
+        throw new BadRequestError("Missing required fields");
+    }
+
+    const job = await enterpriseService.deleteJob({
+        enterpriseId: parseInt(enterpriseId),
+        jobId: parseInt(jobId),
+    })
+
+    return res.status(200).json({
+        meessage: "Job application deleted",
+        job: job,
+    })
+})

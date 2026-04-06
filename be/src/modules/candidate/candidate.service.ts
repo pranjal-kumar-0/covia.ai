@@ -1,12 +1,11 @@
 import prisma from "../../config/prisma";
-import { ApplicantData } from './candidate.types';
+import { JobApplication } from './candidate.types';
 
-export const processNewApplicant = async (data: ApplicantData) => {
+export const submitApplication = async (data: JobApplication) => {
     
-    const candidate = await prisma.candidate.create({
+    const candidate = await prisma.candidate.update({
+        where: {clerkId: data.clerkId},
         data: {
-            name : data.name,
-            email: data.email,
             resume_data: data.resume_data,
             jobId: data.jobId,
         }

@@ -12,7 +12,7 @@ export function errorHandler(
     return;
   }
 
-  // You can add ZodError or Prisma handlers here later
+  // ZodError or Prisma handlers later
 
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal server error" });

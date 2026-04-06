@@ -26,12 +26,20 @@ model CandidateScore{
     candidateId   Int      @unique
     score         Int
     scoreType     ScoreType
+    status        EvalStatus @default(PENDING)
+    failReason    String?
     candidate     Candidate @relation(fields:[candidateId], references: [id])
 }
 
 enum ScoreType {
     ROUND1
     ROUND2
+}
+
+enum EvalStatus {
+    PENDING    
+    COMPLETED
+    FAILED
 }
 
 model Enterprise{
