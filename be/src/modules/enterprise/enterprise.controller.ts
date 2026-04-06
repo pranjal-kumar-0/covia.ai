@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as enterpriseService from './enterprise.service';
-import * as candidateService from '../candidate/candidate.service'; // Imported candidate service
-import { evaluateCandidates } from '../lib/evaluator'; // Imported evaluator
+import * as candidateService from '../candidate/candidate.service';
+import { evaluateCandidates } from '../lib/evaluator';
 import { catchAsync } from '../../../utils/catchAsync';
 import { BadRequestError } from '../../../utils/errors';
 
