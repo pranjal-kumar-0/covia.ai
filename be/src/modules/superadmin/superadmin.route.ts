@@ -3,6 +3,7 @@ import * as superadminController from './superadmin.controller';
 
 const router = Router();
 
+//this is to delete an enterprise by id
 router.delete('/enterprise/:id',superadminController.deleteEnterprise)
 
 export default router;
